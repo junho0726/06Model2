@@ -59,7 +59,7 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<c:if test="${!empty search }" >
+		<c:if test="${!empty search}" >
 			<td align="right">
 				<select name="searchCondition" class="ct_input_g" style="width:80px">
 					<option value="0" ${search.searchCondition==0 ? "selected":"" }>상품번호</option>
@@ -119,7 +119,7 @@
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
-	
+		<c:set var="i" value="0" />
 	<c:forEach var="product" items="${list}">
 		<c:set var="i" value="${ i+1 }" />
 		<tr class="ct_list_pop">
@@ -128,17 +128,17 @@
  		<c:if test="${!empty param.menu }">
 				<c:if test="${param.menu == 'manage' }">
 					<c:choose>
-						<c:when test="${product.proTranCode != '1' || product.proTranCode !='2' || product.proTranCode !='3' }">
-					    	<td align="left"><a href="/getProduct.do?prodNo=${product.prodNo }&menu=${param.menu}">${product.prodName }</a></td>
+						<c:when test="${product.proTranCode !='1' || product.proTranCode !='2' || product.proTranCode !='3' }">
+							<td align="left"><a href="/updateProductView.do?prodNo=${product.prodNo }&menu=${param.menu}">${product.prodName }</a></td>
 						</c:when>
 						<c:otherwise>
-							<td align="left">${product.prodName }</a></td>
+							<td align="left">${product.prodName }</a></td>		
 						</c:otherwise>
 					</c:choose>	
 				</c:if>
 				<c:if test="${param.menu == 'search' }">
 					<c:choose>
-						<c:when test="${product.proTranCode != '1' || product.proTranCode !='2' || product.proTranCode !='3' }">
+						<c:when test="${product.proTranCode !='1' || product.proTranCode !='2' || product.proTranCode !='3' }">
 							<td align="left"><a href="/getProduct.do?prodNo=${product.prodNo }&menu=${param.menu}">${product.prodName }</a></td>
 						</c:when>
 						<c:otherwise>

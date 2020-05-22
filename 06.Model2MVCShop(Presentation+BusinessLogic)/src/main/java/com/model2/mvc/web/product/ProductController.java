@@ -1,4 +1,4 @@
-package com.model2.mvc.web.user;
+package com.model2.mvc.web.product;
 
 import java.util.Map;
 
@@ -60,29 +60,23 @@ public class ProductController {
 		System.out.println("/addProduct.do");
 	
 		product.setManuDate(product.getManuDate().replace("-", ""));
-		product.setProTranCode("0");
-		productService.addProduct(product);
 
+		productService.addProduct(product);
+		System.out.println("product"+product);
 		return "forward:/product/addProduct.jsp";
 	}
 	
 	@RequestMapping("/getProduct.do")
 	public String getProduct( @RequestParam("prodNo") int prodNo,  HttpServletRequest request, Model model ) throws Exception {
 		
-		System.out.println("/getProduct.do");
-		//Business Logic
+
 		Product product = productService.getProduct(prodNo);
-		String menu = request.getParameter("menu");
-		request.setAttribute("menu", menu);
-		
+		product.setProTranCode("0");
 		model.addAttribute("product", product);
 		
-		if(menu.equals("manage")) {
-			return "forward:/updateProductView.do?prodNo="+prodNo;
-		}else {
-				return "forward:/product/getProduct.jsp";
+		return "forward:/product/getProduct.jsp";
 	}
-}
+
 	@RequestMapping("/updateProductView.do")
 	public String updateProductView( @RequestParam("prodNo") int prodNo , Model model ) throws Exception{
 
@@ -95,15 +89,16 @@ public class ProductController {
 		return "forward:/product/updateProductView.jsp";
 	}
 	
-	@RequestMapping("/updateProuct.do")
+	@RequestMapping("/updateProduct.do")
 	public String updateProduct( @ModelAttribute("prodNo") Product product , Model model) throws Exception{
 
 		System.out.println("/updateProduct.do");
-		//Business Logic
+		product.setManuDate(product.getManuDate().replace("-", ""));
 		productService.updateProduct(product);
+		
 		model.addAttribute("product", product);
 	
-		return  "forward:/product/getProduct.jsp";
+		return "forward:/product/getProduct.jsp";
 	}
 	
 	
@@ -111,11 +106,12 @@ public class ProductController {
 	@RequestMapping("/listProduct.do")
 	public String listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 		
-		System.out.println("/listProductr.do");
+		System.out.println("/listProduct.do");
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
+		System.out.println("search"+search);
 		search.setPageSize(pageSize);
 		
 		// Business logic ผ๖วเ
