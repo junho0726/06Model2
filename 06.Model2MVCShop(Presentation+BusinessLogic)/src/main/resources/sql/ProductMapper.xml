@@ -27,11 +27,10 @@
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getProduct"	parameterType="string"	resultMap="productSelectMap">
-		 select
-		 p.*, t.tran_status_code as trancode
-		 from PRODUCT p, transaction t 
-		 where p.prod_no=#{value} AND t.prod_no(+)=p.prod_no
-		
+		SELECT
+		prod_no , prod_name , prod_detail , manufacture_day ,  price ,  image_file , reg_date 		
+		FROM product 
+		WHERE prod_no = #{value}
 	 </select>
 	 
 	 <!-- SQL : UPDATE -->
@@ -51,20 +50,21 @@
 	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(SELECT distinct p.*,
-											FROM product p
+	  					FROM		(SELECT distinct p.*, t.TRAN_STATUS_CODE trancode
+											FROM product p 
+											INNER JOIN transaction t
+											ON p.prod_no = t.prod_no(+)
 											<if test="searchCondition != null">
 												<where>
 													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 					p.prod_no(+) LIKE '%' || #{searchKeyword} || '%'
+										 					p.prod_no LIKE '%' || #{searchKeyword} || '%'
 													</if>																	
 													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				p.prod_name(+) LIKE '%' || #{searchKeyword} || '%'
+										 				p.prod_name LIKE '%' || #{searchKeyword} || '%'
 													</if>
 													<if test="searchCondition == 2 and searchKeyword !='' ">
-										 			p.price(+) =  #{searchKeyword} 
+										 			p.price =  #{searchKeyword} 
 													</if>
-													AND t.prod_no(+)=p.prod_no
 												</where>
 											</if>
 											ORDER BY p.prod_No ) inner_table
@@ -84,8 +84,11 @@
 	
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
-	 SELECT COUNT(*)
-	  	FROM(	SELECT distinct p.* FROM product p
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT distinct p.*, t.TRAN_STATUS_CODE trancode
+	  							FROM product p
+								INNER JOIN transaction t
+								ON p.prod_no = t.prod_no(+)
 						<if test="searchCondition != null">
 							<where>
 								<if test="searchCondition == 0 and searchKeyword !='' ">
@@ -97,6 +100,7 @@
 								<if test="searchCondition == 2 and searchKeyword !='' ">
 									p.price =  #{searchKeyword} 
 								</if>
+
 							</where>
 						</if> ) countTable						
 	 </select>
