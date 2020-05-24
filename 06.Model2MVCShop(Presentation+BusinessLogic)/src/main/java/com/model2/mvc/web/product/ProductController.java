@@ -55,7 +55,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/addProduct.do")
-	public String addUser( @ModelAttribute("product") Product product ) throws Exception {
+	public String addProduct( @ModelAttribute("product") Product product ) throws Exception {
 
 		System.out.println("/addProduct.do");
 	
@@ -71,7 +71,6 @@ public class ProductController {
 		
 
 		Product product = productService.getProduct(prodNo);
-		product.setProTranCode("0");
 		model.addAttribute("product", product);
 		
 		return "forward:/product/getProduct.jsp";

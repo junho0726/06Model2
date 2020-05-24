@@ -120,7 +120,6 @@
 		<table border="0" cellspacing="0" cellpadding="0">
 			<tr>
 
-				<c:if test="${product.proTranCode == '0' }">
 					<td width="17" height="23">
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
@@ -133,7 +132,7 @@
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
 					</td>
 					<td width="30"></td>
-				</c:if>
+
 
 				<td width="17" height="23">
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
