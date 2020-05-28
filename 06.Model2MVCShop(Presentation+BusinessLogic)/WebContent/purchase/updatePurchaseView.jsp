@@ -52,7 +52,7 @@ function fncAddPurchase() {
 	<tr>
 		<td width="104" class="ct_write">구매자아이디</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${purchase.buyer.userId}></td>
+		<td class="ct_write01">${purchase.buyer.userId}</td>
 		<input type="hidden" name="buyerId" value="${purchase.buyer.userId }">
 	</tr>
 	<tr>

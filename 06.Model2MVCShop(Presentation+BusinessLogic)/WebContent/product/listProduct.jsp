@@ -128,7 +128,7 @@
  		<c:if test="${!empty param.menu }">
 				<c:if test="${param.menu == 'manage' }">
 					<c:choose>
-						<c:when test="${product.proTranCode !='1' || product.proTranCode !='2' || product.proTranCode !='3' }">
+						<c:when test="${product.proTranCode =='0' }">
 							<td align="left"><a href="/updateProductView.do?prodNo=${product.prodNo }&menu=${param.menu}">${product.prodName }</a></td>
 						</c:when>
 						<c:otherwise>
@@ -138,7 +138,7 @@
 				</c:if>
 				<c:if test="${param.menu == 'search' }">
 					<c:choose>
-						<c:when test="${product.proTranCode !='1' || product.proTranCode !='2' || product.proTranCode !='3' }">
+						<c:when test="${product.proTranCode== '0' }">
 							<td align="left"><a href="/getProduct.do?prodNo=${product.prodNo }&menu=${param.menu}">${product.prodName }</a></td>
 						</c:when>
 						<c:otherwise>
@@ -166,7 +166,7 @@
 				</c:if>	
 				<c:if test="${param.menu == 'search' }">
 					<c:choose>
-						<c:when test="${product.proTranCode.charAt(0) == '0'.charAt(0) }">
+						<c:when test="${product.proTranCode == '0' }">
 							∆«∏≈¡ﬂ
 						</c:when>
 						<c:otherwise>

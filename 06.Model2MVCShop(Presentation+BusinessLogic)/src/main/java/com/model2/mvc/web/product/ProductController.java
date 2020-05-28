@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
+import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
 
@@ -71,6 +72,7 @@ public class ProductController {
 		
 
 		Product product = productService.getProduct(prodNo);
+	
 		model.addAttribute("product", product);
 		
 		return "forward:/product/getProduct.jsp";
@@ -126,4 +128,5 @@ public class ProductController {
 		
 		return "forward:/product/listProduct.jsp";
 	}
+
 }

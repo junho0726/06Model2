@@ -48,7 +48,7 @@
 	<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
   		SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT t.tran_no, p.prod_no, t.order_data, t.tran_status_code 
+  						FROM ( SELECT t.tran_no, p.prod_no, t.order_data, t.tran_status_code, t.buyer_id , t.RECEIVER_NAME, t.RECEIVER_PHONE
 										FROM transaction t, product p, users u 
 										WHERE t.prod_no = p.prod_no 
 										AND t.buyer_id = u.user_id 
@@ -69,22 +69,28 @@
   	<update	id="updatePurchase"	parameterType="purchase" >
 	   	UPDATE transaction
 	   	<set>
-	   		payment_option 	= #{paymentOption} ,
-			receiver_name	= #{receiverName},
-			receiver_phone = #{receiverPhone} ,
-			demailaddr				=	#{divyAddr},
-			dlvy_request     = #{divyRequest},
-			dlvy_date = #{divyDate}
+	   		payment_option =    #{paymentOption:CHAR},
+			receiver_name  =	#{receiverName:VARCHAR},
+			receiver_phone = 	#{receiverPhone:VARCHAR},
+			demailaddr	   =	#{divyAddr:VARCHAR},
+			dlvy_request   = 	#{divyRequest:VARCHAR},
+			DLVY_DATE      =	#{divyDate:DATE}
 	   	</set>
 	   	WHERE tran_no = #{tranNo}
 	 </update>
-	 
-	 	 <update	id="updateTranCode"	parameterType="purchase" >
-	   	UPDATE transaction
-	   	<set>
-	   		tran_status_code = '2'
-	   	</set>
-	   	WHERE tran_no = #{tranNo}
+
+	 <update	id="updateTranCode"	parameterType="purchase" >
+	   UPDATE transaction
+	   <set>
+	   tran_status_code = #{tranCode}
+	   </set>
+	   WHERE
+	  <if test= "purchaseProd == null">
+	   tran_no = #{tranNo}
+	   </if>
+	  <if test ="purchaseProd != null">
+	   prod_no = #{purchaseProd.prodNo}
+	   </if>
 	 </update>
 	 
 	 

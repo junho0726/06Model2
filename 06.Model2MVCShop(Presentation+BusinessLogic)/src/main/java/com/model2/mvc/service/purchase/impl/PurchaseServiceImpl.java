@@ -42,7 +42,13 @@ public class PurchaseServiceImpl implements PurchaseService{
 	}
 
 	public Map<String , Object > getPurchaseList(Search search, String buyerId) throws Exception {
-		return purchaseDao.getPurchaseList(search, buyerId);
+		Map<String , Object> map= purchaseDao.getPurchaseList(search, buyerId);
+		int totalCount = purchaseDao.getTotalCount(search);
+		
+	
+		map.put("totalCount", new Integer(totalCount));
+		System.out.println("ServiceMap"+map);
+		return map;
 		}
 	public void updatePurchase(Purchase purchase) throws Exception {
 		purchaseDao.updatePurchase(purchase);
@@ -54,6 +60,12 @@ public class PurchaseServiceImpl implements PurchaseService{
 
 	@Override
 	public Purchase getPurchase2(int ProdNo) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> getSaleList(Search search) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

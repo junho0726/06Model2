@@ -68,9 +68,6 @@ public class PurchaseController {
 			
 		purchase.setPurchaseProd(productService.getProduct(prodNo));
 		purchase.setBuyer((User)session.getAttribute("user"));
-		purchase.setPaymentOption(request.getParameter("paymentOption"));	
-		purchase.setReceiverName(request.getParameter("receiverName"));	
-		purchase.setReceiverPhone(request.getParameter("receiverPhone"));
 		purchase.setDivyAddr(request.getParameter("receiverAddr"));
 		purchase.setDivyRequest(request.getParameter("receiverRequest"));
 		purchase.setDivyDate(request.getParameter("receiverDate"));	
@@ -94,25 +91,36 @@ public class PurchaseController {
 	
 	@RequestMapping("/updatePurchaseView.do")
 	public String updatePurchaseView( @RequestParam("tranNo") int tranNo , Model model ) throws Exception{
-
+		System.out.println("시작");
 		System.out.println("/updatePurchaseView.do");
 		//Business Logic
 		Purchase purchase = purchaseService.getPurchase(tranNo);
 		// Model 과 View 연결
 		model.addAttribute("purchase", purchase);
-		
+		System.out.println("purchase"+purchase);
 		return "forward:/purchase/updatePurchaseView.jsp";
 	}
 	
 	@RequestMapping("/updatePurchase.do")
-	public String updateProduct( @ModelAttribute("tranNo") Purchase purchase , Model model) throws Exception{
-
+	public String updatePurchase( @RequestParam("tranNo") int tranNo, HttpServletRequest request,  Model model, HttpSession session) throws Exception{
+	
 		System.out.println("/updatePurchase.do");
 		
+	    Purchase purchase = purchaseService.getPurchase(tranNo);
+		purchase.setBuyer((User)session.getAttribute("user"));
+		purchase.setTranNo(Integer.parseInt(request.getParameter("tranNo")));
+		purchase.setPaymentOption(request.getParameter("paymentOption"));
+		purchase.setReceiverName(request.getParameter("receiverName"));
+		purchase.setReceiverPhone(request.getParameter("receiverPhone"));
+		purchase.setDivyAddr(request.getParameter("receiverAddr"));
+		purchase.setDivyRequest(request.getParameter("receiverRequest"));
+		purchase.setDivyDate(request.getParameter("divyDate"));
+
 		purchaseService.updatePurchase(purchase);
 		
 		model.addAttribute("purchase", purchase);
-	
+		
+
 		return "forward:/purchase/getPurchase.jsp";
 	}
 	
@@ -140,6 +148,30 @@ public class PurchaseController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		return "forward:/product/listProduct.jsp";
+		return "forward:/purchase/listPurchase.jsp";
+	}
+	@RequestMapping("/updateTranCode.do")
+	public String updateTranCode(@ModelAttribute("purchase") Purchase purchase, @RequestParam("tranNo") int tranNo, HttpServletRequest request, Model model) throws Exception{
+		
+		purchase.setTranNo(Integer.parseInt(request.getParameter("tranNo")));
+		purchase.setTranCode(request.getParameter("tranCode"));
+		
+		purchaseService.updateTranCode(purchase);
+		
+		model.addAttribute("purchase", purchase);
+		return "forward:/listPurchase.do";
+	}
+	@RequestMapping("/updateTranCodeByProd.do")
+	public String UpdateTranCodeByProd (@ModelAttribute("purchase") Purchase purchase, @ModelAttribute("product") Product product, @RequestParam("prodNo") int prodNo,HttpServletRequest request, Model model ) throws Exception {
+		System.out.println("시작");
+		purchase.setTranCode(request.getParameter("tranCode"));
+		purchase.setPurchaseProd(product);
+		
+		System.out.println("trancode"+purchase);
+		purchaseService.updateTranCode(purchase);
+		model.addAttribute("purchase", purchase);
+		
+		System.out.println("trancode"+purchase);
+		return "forward:/listProduct.do?menu=manage";
 	}
 }

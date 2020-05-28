@@ -15,6 +15,7 @@
 		<result property="price" 				column="price" 					jdbcType="INTEGER" />
 		<result property="fileName" 			column="image_file" 		jdbcType="VARCHAR" />
 		<result property="regDate" 				column="reg_date" 					jdbcType="DATE" />
+		<result property="proTranCode" column="trancode"						jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
@@ -27,11 +28,13 @@
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getProduct"	parameterType="string"	resultMap="productSelectMap">
-		SELECT
-		prod_no , prod_name , prod_detail , manufacture_day ,  price ,  image_file , reg_date 		
-		FROM product 
-		WHERE prod_no = #{value}
+		select p.*, NVL(t.tran_status_code,'0') as trancode
+        FROM product p
+        INNER JOIN transaction t
+        ON t.prod_no(+)=p.prod_no
+		WHERE p.prod_no = #{prodNo}
 	 </select>
+	 
 	 
 	 <!-- SQL : UPDATE -->
 	 <update	id="updateProduct"	parameterType="product" >
@@ -50,7 +53,7 @@
 	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(SELECT distinct p.*, t.TRAN_STATUS_CODE trancode
+	  					FROM		(SELECT distinct p.*, NVL(t.tran_status_code,'0') as trancode
 											FROM product p 
 											INNER JOIN transaction t
 											ON p.prod_no = t.prod_no(+)

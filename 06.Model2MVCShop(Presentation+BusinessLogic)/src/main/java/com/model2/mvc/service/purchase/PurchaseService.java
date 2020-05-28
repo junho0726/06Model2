@@ -19,5 +19,7 @@ public interface PurchaseService {
 	public void updatePurchase(Purchase purchase) throws Exception;
 	
 	public void updateTranCode(Purchase purchase) throws Exception;
+
+	Map<String, Object> getSaleList(Search search) throws Exception;
 	
 }
