@@ -48,16 +48,11 @@ public class PurchaseController {
 	public String addPurchaseView(@ModelAttribute("purchase") Purchase purchase, @RequestParam("prod_no") int prodNo, HttpServletRequest request, HttpSession session, Model model) throws Exception {
 		System.out.println("Ω√¿€");
 		
-
-		System.out.println("prodNo"+prodNo);
-		
 		purchase.setBuyer((User)session.getAttribute("user"));
 		purchase.setPurchaseProd(productService.getProduct(prodNo));
 		
 		model.addAttribute("purchase", purchase);
-		System.out.println("purchase"+purchase);
-		System.out.println("/addPurchaseView.do");
-		
+
 		return "forward:/purchase/addPurchaseView.jsp";
 	}
 	

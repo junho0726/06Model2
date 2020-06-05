@@ -72,7 +72,7 @@ public class ProductController {
 		
 
 		Product product = productService.getProduct(prodNo);
-	
+		System.out.println("getProduct"+product);
 		model.addAttribute("product", product);
 		
 		return "forward:/product/getProduct.jsp";
@@ -91,14 +91,17 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/updateProduct.do")
-	public String updateProduct( @ModelAttribute("prodNo") Product product , Model model) throws Exception{
+	public String updateProduct( @ModelAttribute("product") Product product , Model model) throws Exception{
 
 		System.out.println("/updateProduct.do");
+
 		product.setManuDate(product.getManuDate().replace("-", ""));
+
 		productService.updateProduct(product);
+		product = productService.getProduct(product.getProdNo());
 		
 		model.addAttribute("product", product);
-	
+		System.out.println("product"+product);
 		return "forward:/product/getProduct.jsp";
 	}
 	

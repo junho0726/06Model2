@@ -19,7 +19,7 @@ public interface PurchaseDao {
 	
 	public void updateTranCode(Purchase purchase) throws Exception;
 
-	public int getTotalCount(Search search) throws Exception;
+	public int getTotalCount(String buyerId) throws Exception;
 
 	public Map<String, Object> getPurchaseList(Search search,String buyerId ) throws Exception;
 

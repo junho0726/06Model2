@@ -72,8 +72,8 @@ public class PurchaseDaoImpl implements PurchaseDao{
 		sqlSession.update("PurchaseMapper.updateTranCode", purchase);
 	}
 	
-	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("PurchaseMapper.getTotalCount", search);
+	public int getTotalCount(String buyerId) throws Exception {
+		return sqlSession.selectOne("PurchaseMapper.getTotalCount", buyerId);
 	}
 
 	@Override
